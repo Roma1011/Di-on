@@ -1,5 +1,6 @@
 using System.Reflection;
 using DiÆon.Attributes;
+using DiÆon.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,6 +22,9 @@ public class Aggregator
         
         foreach (var defined in singletonDefined)
         {
+            if(defined.CustomAttributes.Select(x =>x.AttributeType.BaseType).Count() > 1)
+                throw new MultipleLifeTimeException();
+            
             if (defined.CustomAttributes.Any(custom => custom.AttributeType == typeof(Singleton)))
             {
                 var declaredInterface=defined.ImplementedInterfaces.
