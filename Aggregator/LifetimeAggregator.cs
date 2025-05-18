@@ -16,7 +16,7 @@ public class LifetimeAggregator
                     =>
                         x.AttributeType==typeof(Singleton) || 
                         x.AttributeType==typeof(Scoped)    || 
-                        x.AttributeType==typeof(Scoped)
+                        x.AttributeType==typeof(Transient)
                 )
             );
         
