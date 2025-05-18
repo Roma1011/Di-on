@@ -13,7 +13,7 @@ This project provides a utility for automatically registering services in a .NET
 
 
 ### 📦 Installation
-Just clone or include the ShadowCaster class in your project. No external dependencies are required.
+Just clone or include the DiÆon class in your project. No external dependencies are required.
 
 ## 📖 Usage
 ### 🔷 1. Define your services and annotate them with the appropriate lifetime attribute:
@@ -65,6 +65,6 @@ Throws InvalidOperationException for unsupported source types.
 Throws InvalidCastException when the source object is null or incompatible.
 ```
 ### 👨‍💻 Contributing
-Feel free to submit issues or create pull requests to enhance ShadowCaster.
+Feel free to submit issues or create pull requests to enhance DiÆon.
 
 
