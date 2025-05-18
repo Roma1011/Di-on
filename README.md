@@ -61,8 +61,7 @@ aggregator.AggregateLifeTime(Assembly.GetExecutingAssembly(), ref services);
 
 ### ⚠️ Error Handling
 ```
-Throws InvalidOperationException for unsupported source types.
-Throws InvalidCastException when the source object is null or incompatible.
+
 ```
 ### 👨‍💻 Contributing
 Feel free to submit issues or create pull requests to enhance DiÆon.
