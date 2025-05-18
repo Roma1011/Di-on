@@ -1,3 +1,5 @@
+using DiÆon.Attributes.Base;
+
 namespace DiÆon.Attributes;
 
-public class Scoped:BindingAttribute{}
+public class Scoped:BaseLifetimeAttribute{}
