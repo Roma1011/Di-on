@@ -1,6 +1,7 @@
-![6703159](https://github.com/user-attachments/assets/3480d234-190c-4c78-afe2-1f4c0bd81918)
+![ezgif-4d080faf903e07](https://github.com/user-attachments/assets/d0f022ea-e649-4ed0-b985-5ca98bd9d408)
 
 # DiÆon
+
 ## ⚡ Overview
 This project provides a utility for automatically registering services in a .NET application using custom attributes (`Singleton`, `Scoped`, and `Transient`). It simplifies the process of configuring dependency injection by scanning assemblies and registering services based on their lifetime.
 
