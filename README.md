@@ -43,14 +43,14 @@ public class MyScopedService
 ```
 ### 🔷 2. Use the Aggregator class to register services in your Startup or Program class:
 ```
-using DiÆon.LifeTimeAggregator;
+using DiÆon.Aggregator;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 var services = new ServiceCollection();
-var aggregator = new Aggregator();
+var aggregator = new LifetimeAggregator();
 
-aggregator.AggregateLifeTime(Assembly.GetExecutingAssembly(), ref services);
+aggregator.Aggregate(Assembly.GetExecutingAssembly(), ref services);
 ```
 ### Attributes
 ```
@@ -61,6 +61,7 @@ aggregator.AggregateLifeTime(Assembly.GetExecutingAssembly(), ref services);
 
 ### ⚠️ Error Handling
 ```
+MultipleLifetimeException
 
 ```
 ### 👨‍💻 Contributing

@@ -4,14 +4,14 @@ using DiÆon.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace DiÆon.LifeTimeAggregator;
+namespace DiÆon.Aggregator;
 
-public class Aggregator
+public class LifetimeAggregator
 {
-    public void AggregateLifeTime(Assembly assembly,ref ServiceCollection collection)
+    public void Aggregate(Assembly assembly,ref ServiceCollection collection)
     {
         var singletonDefined = assembly.DefinedTypes.
-            Where(definedTypes =>!definedTypes.IsInterface && definedTypes.CustomAttributes.
+            Where(definedTypes => !definedTypes.IsInterface && definedTypes.CustomAttributes.
                 Any(x
                     =>
                         x.AttributeType==typeof(Singleton) || 
@@ -23,7 +23,7 @@ public class Aggregator
         foreach (var defined in singletonDefined)
         {
             if(defined.CustomAttributes.Select(x =>x.AttributeType.BaseType).Count() > 1)
-                throw new MultipleLifeTimeException();
+                throw new MultipleLifetimeException();
             
             if (defined.CustomAttributes.Any(custom => custom.AttributeType == typeof(Singleton)))
             {
