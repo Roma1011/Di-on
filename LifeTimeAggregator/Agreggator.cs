@@ -7,8 +7,6 @@ namespace DiÆon.LifeTimeAggregator;
 
 public class Aggregator
 {
-    private readonly List<ServiceDescriptor> _serviceDescriptors=new ();
-    
     public void AggregateLifeTime(Assembly assembly,ref ServiceCollection collection)
     {
         var singletonDefined = assembly.DefinedTypes.
