@@ -13,6 +13,7 @@
     <PackageTags>Dependency Injection,Dependency,Injection,Scoped,Singleton,Transient</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Copyright>MIT</Copyright>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
