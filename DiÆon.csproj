@@ -9,9 +9,9 @@
     <Authors>Roma1011</Authors>
     <Description>This project provides a utility for automatically registering services in a .NET application using custom attributes (Singleton, Scoped, and Transient). It simplifies the process of configuring dependency injection by scanning assemblies and registering services based on their lifetime.</Description>
     <PackageProjectUrl>https://github.com/Roma1011/Di-on</PackageProjectUrl>
-    <PackageIcon>444902733-d0f022ea-e649-4ed0-b985-5ca98bd9d408.jpg</PackageIcon>
     <RepositoryUrl>https://github.com/Roma1011/Di-on</RepositoryUrl>
     <PackageTags>Dependency Injection,Dependency,Injection,Scoped,Singleton,Transient</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Copyright>MIT</Copyright>
   </PropertyGroup>
 
@@ -24,5 +24,9 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

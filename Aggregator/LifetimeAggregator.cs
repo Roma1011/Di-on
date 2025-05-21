@@ -6,18 +6,18 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DiÆon.Aggregator;
 
-public class LifetimeAggregator
+public static class Aggregator
 {
-    public void Aggregate(Assembly assembly,ref ServiceCollection collection)
+    public static IServiceCollection AggregateLifeTime(this IServiceCollection collection,Assembly assembly)
     {
         var singletonDefined = assembly.DefinedTypes.
             Where(definedTypes => !definedTypes.IsInterface && definedTypes.CustomAttributes.
-                Any(x
-                    =>
-                        x.AttributeType==typeof(Singleton) || 
-                        x.AttributeType==typeof(Scoped)    || 
-                        x.AttributeType==typeof(Transient)
-                )
+                    Any(x
+                        =>
+                            x.AttributeType==typeof(Singleton) || 
+                            x.AttributeType==typeof(Scoped)    || 
+                            x.AttributeType==typeof(Transient)
+                    )
             );
         
         foreach (var defined in singletonDefined)
@@ -65,5 +65,6 @@ public class LifetimeAggregator
                     collection.TryAdd(new ServiceDescriptor(defined,defined,ServiceLifetime.Transient));
             }
         }
+        return collection;
     }
 }
