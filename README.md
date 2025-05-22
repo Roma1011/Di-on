@@ -48,8 +48,8 @@ using DiÆon.Aggregator;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-var services = new ServiceCollection();
-var aggregator = new LifetimeAggregator();
+IServiceCollection services=new ServiceCollection();
+services.AggregateLifeTime(typeof(Program).Assembly);
 
 aggregator.Aggregate(Assembly.GetExecutingAssembly(), ref services);
 ```
