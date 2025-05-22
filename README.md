@@ -51,7 +51,6 @@ using System.Reflection;
 IServiceCollection services=new ServiceCollection();
 services.AggregateLifeTime(typeof(Program).Assembly);
 
-aggregator.Aggregate(Assembly.GetExecutingAssembly(), ref services);
 ```
 ### Attributes
 ```
