@@ -1,5 +1,7 @@
 ![ezgif-4d080faf903e07](https://github.com/user-attachments/assets/d0f022ea-e649-4ed0-b985-5ca98bd9d408)
 
+https://github.com/Roma1011/Di-on
+
 # DiÆon
 
 ## ⚡ Overview
@@ -18,29 +20,91 @@ Just clone or include the DiÆon class in your project. No external dependencies
 
 ## 📖 Usage
 ### 🔷 1. Define your services and annotate them with the appropriate lifetime attribute:
+
+### Example 1: Scoped
 ```
 using DiÆon.Attributes;
 
 [Scoped]
-public Interface IMyService
+public interface IScopedLogger
 {
-    // Implementation
+    void Log(string message);
 }
 
 [Scoped]
-public class MyScopedService : IMyService
+public class ScopedLogger : IScopedLogger
 {
-    // Implementation
+    public void Log(string message)
+    {
+        Console.WriteLine($"[Scoped] {message}");
+    }
 }
+```
+### Example 2: Scoped
+```
+using DiÆon.Attributes;
 
+using DiÆon.Attributes;
 
 [Singleton]
-public class MyScopedService
+public class GlobalConfiguration
 {
-    // Implementation
+    public string Environment { get; set; } = "Production";
+}
+```
+
+### Example 3: Transient
+```
+using DiÆon.Attributes;
+
+[Scoped]
+public interface IUserContext
+{
+    string GetUserId();
 }
 
+[Scoped]
+public class UserContext : IUserContext
+{
+    public string GetUserId() => "user-123";
+}
 
+[Transient]
+public class AuditService
+{
+    private readonly IUserContext _userContext;
+
+    public AuditService(IUserContext userContext)
+    {
+        _userContext = userContext;
+    }
+
+    public void Audit(string action)
+    {
+        Console.WriteLine($"User {_userContext.GetUserId()} performed: {action}");
+    }
+}
+```
+### Example 4: Generic
+```
+using DiÆon.Attributes;
+
+[Transient]
+public interface IRepository<T>
+{
+    void Add(T item);
+}
+
+[Transient]
+public class InMemoryRepository<T> : IRepository<T>
+{
+    private readonly List<T> _items = new();
+
+    public void Add(T item)
+    {
+        _items.Add(item);
+    }
+}
 ```
 ### 🔷 2. Use the Aggregator class to register services in your Startup or Program class:
 ```
