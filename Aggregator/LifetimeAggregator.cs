@@ -11,7 +11,7 @@ public static class Aggregator
 {
     public static IServiceCollection AggregateLifeTime(this IServiceCollection collection,Assembly assembly)
     {
-        var singletonDefined = assembly.DefinedTypes.
+        var definedTypes = assembly.DefinedTypes.
             Where(definedTypes => !definedTypes.IsInterface && definedTypes.CustomAttributes.
                     Any(x
                         =>
@@ -21,22 +21,27 @@ public static class Aggregator
                     )
             );
         
-        foreach (var defined in singletonDefined)
+        foreach (var defined in definedTypes)
         {
             if(defined.CustomAttributes.Count(x => x.AttributeType.BaseType == typeof(BaseLifetimeAttribute)) > 1)
                 throw new MultipleLifetimeException();
-
+            
             if (defined.CustomAttributes.Any(custom => custom.AttributeType == typeof(Singleton)))
             {
                 var declaredInterface=defined.ImplementedInterfaces.
                     FirstOrDefault(type=>type.CustomAttributes.
                         Any(customAttributeData => customAttributeData.AttributeType==typeof(Singleton)));
                 
-                if(declaredInterface is not null)
+                if (declaredInterface is not null)
+                {
+                    if (declaredInterface.IsGenericType)
+                        declaredInterface = declaredInterface.GetGenericTypeDefinition();
+                    
                     collection.TryAdd(new ServiceDescriptor(declaredInterface,defined,ServiceLifetime.Singleton));
-                else
+                } else {
                     collection.TryAdd(new ServiceDescriptor(defined,defined,ServiceLifetime.Singleton));
-                
+                }
+                    
                 continue;
             }
             
@@ -45,11 +50,16 @@ public static class Aggregator
                 var declaredInterface=defined.ImplementedInterfaces.
                     FirstOrDefault(type=>type.CustomAttributes.
                         Any(customAttributeData => customAttributeData.AttributeType==typeof(Scoped)));
-                
-                if(declaredInterface is not null)
+
+                if (declaredInterface is not null)
+                {
+                    if (declaredInterface.IsGenericType)
+                        declaredInterface = declaredInterface.GetGenericTypeDefinition();
+                    
                     collection.TryAdd(new ServiceDescriptor(declaredInterface,defined,ServiceLifetime.Scoped));
-                else
+                } else {
                     collection.TryAdd(new ServiceDescriptor(defined,defined,ServiceLifetime.Scoped));
+                }
                 
                 continue;
             }
@@ -59,11 +69,16 @@ public static class Aggregator
                 var declaredInterface=defined.ImplementedInterfaces.
                     FirstOrDefault(type=>type.CustomAttributes.
                         Any(customAttributeData => customAttributeData.AttributeType==typeof(Transient)));
-                
-                if(declaredInterface is not null)
-                    collection.TryAdd(new ServiceDescriptor(declaredInterface,defined,ServiceLifetime.Transient));
-                else
+
+                if (declaredInterface is not null)
+                {
+                    if (declaredInterface.IsGenericType)
+                        declaredInterface = declaredInterface.GetGenericTypeDefinition();
+                    
+                    collection.TryAdd(new ServiceDescriptor(declaredInterface, defined, ServiceLifetime.Transient));
+                } else {
                     collection.TryAdd(new ServiceDescriptor(defined,defined,ServiceLifetime.Transient));
+                }
             }
         }
         return collection;
