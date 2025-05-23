@@ -28,9 +28,9 @@ public static class Aggregator
             Where(definedTypes => !definedTypes.IsInterface && definedTypes.CustomAttributes.
                 Any(attr
                     =>
-                    attr.AttributeType==typeof(Singleton) || 
-                    attr.AttributeType==typeof(Scoped)    || 
-                    attr.AttributeType==typeof(Transient)
+                    attr.AttributeType == typeof(Singleton) || 
+                    attr.AttributeType == typeof(Scoped)    || 
+                    attr.AttributeType == typeof(Transient)
                 )
             );
         
@@ -61,11 +61,11 @@ public static class Aggregator
     /// <param name="lifetimeAttributeType">The type of the lifetime attribute (e.g., <see cref="Scoped"/>, <see cref="Transient"/>, or <see cref="Singleton"/>).</param>
     /// <returns>A <see cref="ServiceDescriptor"/> representing the service registration.</returns>
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public static ServiceDescriptor LifeSeeker(TypeInfo implementationType,Type lifetimeAttributeType)
+    private static ServiceDescriptor LifeSeeker(TypeInfo implementationType,Type lifetimeAttributeType)
     {
         Type? serviceInterface=implementationType.ImplementedInterfaces.
             FirstOrDefault(type=>type.CustomAttributes.
-                Any(customAttributeData => customAttributeData.AttributeType==lifetimeAttributeType));
+                Any(customAttributeData => customAttributeData.AttributeType == lifetimeAttributeType));
                 
         if (serviceInterface is not null)
         {
