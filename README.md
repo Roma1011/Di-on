@@ -41,7 +41,7 @@ public class ScopedLogger : IScopedLogger
     }
 }
 ```
-### Example 2: Scoped
+### Example 2: Singleton
 ```
 using DiÆon.Attributes;
 
