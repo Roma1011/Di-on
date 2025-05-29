@@ -1,7 +1,7 @@
 ![ezgif-4d080faf903e07](https://github.com/user-attachments/assets/d0f022ea-e649-4ed0-b985-5ca98bd9d408)
 
-https://github.com/Roma1011/Di-on
-https://www.nuget.org/packages/Di%C3%86on
+### https://github.com/Roma1011/Di-on
+### https://www.nuget.org/packages/Di%C3%86on
 
 # DiÆon
 
