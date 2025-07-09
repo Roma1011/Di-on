@@ -13,7 +13,7 @@
     <PackageTags>Dependency Injection,Dependency,Injection,Scoped,Singleton,Transient</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Copyright>MIT</Copyright>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <PackageReleaseNotes>Refactor LifetimeAggregator for improved code formatting and access modifier adjustment, Enhance AggregateLifeTime method with improved logic and detailed XML documentation,Refactor LifetimeAggregator to improve variable naming and enhance readability
 </PackageReleaseNotes>
   </PropertyGroup>
