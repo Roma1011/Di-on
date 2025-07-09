@@ -8,6 +8,10 @@ namespace DiÆon.Aggregator;
 
 public static class Aggregator
 {
+    private static readonly HashSet<Type> LifetimeAttributes = new()
+    {
+        typeof(Singleton), typeof(Scoped), typeof(Transient)
+    };
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     /// <summary>
     /// Scans the provided assembly for non-interface types annotated with 
@@ -19,34 +23,33 @@ public static class Aggregator
     /// otherwise it registers the implementation type as itself.
     /// </summary>
     /// <param name="collection">The <see cref="IServiceCollection"/> to which the services will be added.</param>
-    /// <param name="assembly">The assembly to scan for types with lifetime attributes.</param>
+    /// <param name="assemblies">The assemblies to scan for types with lifetime attributes.</param>
     /// <returns>The updated <see cref="IServiceCollection"/> with all discovered and registered services.</returns>
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public static IServiceCollection AggregateLifeTime(this IServiceCollection collection,Assembly assembly)
+    public static IServiceCollection AggregateLifeTime(this IServiceCollection collection,params Assembly[] assemblies)
     {
-        IEnumerable<TypeInfo> typesWithLifetimeAttributes = assembly.DefinedTypes.
-            Where(definedTypes => !definedTypes.IsInterface && definedTypes.CustomAttributes.
-                Any(attr
-                    =>
-                    attr.AttributeType == typeof(Singleton) || 
-                    attr.AttributeType == typeof(Scoped)    || 
-                    attr.AttributeType == typeof(Transient)
-                )
-            );
-        
-        foreach (var typeInfo in typesWithLifetimeAttributes)
+        ArgumentNullException.ThrowIfNull(collection);
+        ArgumentNullException.ThrowIfNull(assemblies);
+        foreach (var assembly in assemblies)
         {
-            if(typeInfo.CustomAttributes.Count(x => x.AttributeType.BaseType == typeof(BaseLifetimeAttribute)) > 1)
-                throw new MultipleLifetimeException();
+            var typesWithLifetimeAttributes = assembly.DefinedTypes
+                .Where(t => !t.IsInterface && 
+                            t.CustomAttributes.Any(attr => LifetimeAttributes.Contains(attr.AttributeType)));
+        
+            foreach (var typeInfo in typesWithLifetimeAttributes)
+            {
+                if(typeInfo.CustomAttributes.Count(x => x.AttributeType.BaseType == typeof(BaseLifetimeAttribute)) > 1)
+                    throw new MultipleLifetimeException();
             
-            var lifetimeAttributeType = typeInfo.CustomAttributes
-                .First(attr =>
-                    attr.AttributeType == typeof(Scoped)    ||
-                    attr.AttributeType == typeof(Transient) ||
-                    attr.AttributeType == typeof(Singleton)).AttributeType;
+                var lifetimeAttributeType = typeInfo.CustomAttributes
+                    .First(attr =>
+                        attr.AttributeType == typeof(Scoped)    ||
+                        attr.AttributeType == typeof(Transient) ||
+                        attr.AttributeType == typeof(Singleton)).AttributeType;
 
-            var descriptor = LifeSeeker(typeInfo, lifetimeAttributeType);
-            collection.Add(descriptor);
+                var descriptor = LifeSeeker(typeInfo, lifetimeAttributeType);
+                collection.Add(descriptor);
+            }
         }
         return collection;
     }
