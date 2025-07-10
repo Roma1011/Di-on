@@ -114,7 +114,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 IServiceCollection services=new ServiceCollection();
-services.AggregateLifeTime(typeof(Program).Assembly);
+services.AggregateLifeTime([typeof(Program).Assembly]);
 
 ```
 ### Attributes
